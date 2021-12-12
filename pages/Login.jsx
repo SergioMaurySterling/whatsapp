@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Button from '@mui/material/Button';
 import { auth,provider } from '../firebase';
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useEffect } from 'react';
 
 export default function Login() {
 
