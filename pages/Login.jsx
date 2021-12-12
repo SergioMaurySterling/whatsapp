@@ -1,8 +1,32 @@
 import styled from 'styled-components';
 import Head from 'next/head';
 import Button from '@mui/material/Button';
+import { auth,provider } from '../firebase';
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 export default function Login() {
+
+  const signIn = () => {
+    signInWithPopup(auth,provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  }
+
   return (
     <Container>
       <Head>
@@ -12,7 +36,7 @@ export default function Login() {
         <Logo src='http://assets.stickpng.com/images/580b57fcd9996e24bc43c543.png'
               alt='wapp logo'
         />
-        <Button2 variant='outlined' >Sign in with Google</Button2>
+        <Button2 onClick={signIn} variant='outlined' >Sign in with Google</Button2>
       </LoginContainer>
     </Container>
   )
